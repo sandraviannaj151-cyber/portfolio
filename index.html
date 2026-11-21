@@ -1,0 +1,423 @@
+```html
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sandra Viana de Jesus — AI Data Annotator & Linguistic Evaluator</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f2f7f4',
+                            100: '#dfede6',
+                            600: '#2d6a4f',
+                            800: '#1b4332',
+                            900: '#0f291e',
+                        },
+                        paper: '#fafaf9',
+                    },
+                    fontFamily: {
+                        serif: ['Merriweather', 'Georgia', 'serif'],
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #fafaf9;
+            color: #1c1917;
+        }
+
+        /* Custom Print Rules for perfect A4 export */
+        @media print {
+            @page {
+                size: A4;
+                margin: 15mm 15mm 15mm 15mm;
+            }
+            body {
+                background-color: #ffffff !important;
+                color: #000000 !important;
+                font-size: 11pt;
+            }
+            .no-print {
+                display: none !important;
+            }
+            .print-border-none {
+                border: none !important;
+                box-shadow: none !important;
+            }
+            .print-break-inside-avoid {
+                break-inside: avoid !important;
+                page-break-inside: avoid !important;
+            }
+            .print-bg-transparent {
+                background: transparent !important;
+            }
+            a {
+                text-decoration: underline !important;
+                color: #000000 !important;
+            }
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-stone-800 selection:bg-brand-800 selection:text-white min-h-screen flex flex-col justify-between">
+
+    <!-- Top Sticky Action Bar (Hidden during Print) -->
+    <header class="no-print sticky top-0 z-50 bg-[#fafaf9]/90 backdrop-blur-md border-b border-stone-200 py-3 px-4 sm:px-8">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <span class="text-xs font-semibold tracking-wider text-brand-800 uppercase flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                AI Evaluation Portfolio
+            </span>
+            <div class="flex items-center gap-3">
+                <button onclick="copyEmail()" class="text-xs font-medium text-stone-600 hover:text-brand-800 border border-stone-300 rounded-md px-3 py-1.5 transition-colors flex items-center gap-1.5 bg-white">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                    Copy Email
+                </button>
+                <button onclick="window.print()" class="text-xs font-semibold text-white bg-brand-800 hover:bg-brand-900 rounded-md px-4 py-1.5 transition-all shadow-sm flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Print / Save as PDF
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="max-w-4xl mx-auto px-4 sm:px-8 py-8 sm:py-12 flex-grow w-full">
+        
+        <!-- HEADER SECTION -->
+        <section class="border-b border-stone-300 pb-8 mb-8 print-break-inside-avoid">
+            <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                <div>
+                    <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold text-brand-900 tracking-tight">
+                        Sandra Viana de Jesus
+                    </h1>
+                    <p class="text-base sm:text-lg font-medium text-brand-600 mt-2">
+                        AI Data Annotator | Linguistic & Multimodal Evaluator
+                    </p>
+                    <p class="text-xs sm:text-sm text-stone-500 mt-1 font-mono">
+                        RLHF • Supervised Fine-Tuning (SFT) • Audio & Text Quality Audit
+                    </p>
+                </div>
+                
+                <!-- Contact info block -->
+                <div class="flex flex-col gap-2 text-xs sm:text-sm text-stone-700 font-sans border-t md:border-t-0 md:border-l border-stone-200 pt-4 md:pt-0 md:pl-6">
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <span>São Paulo, Brazil <span class="text-stone-400">—</span> <span class="font-medium text-brand-800">Remote (Global)</span></span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-800 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        <a href="mailto:sandraviannaj151@gmail.com" class="hover:underline font-mono text-stone-800">sandraviannaj151@gmail.com</a>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-brand-800 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                        <a href="https://www.linkedin.com/in/sandra-viana-ia" target="_blank" rel="noopener noreferrer" class="text-brand-800 hover:underline font-mono text-xs">linkedin.com/in/sandra-viana-ia</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROFESSIONAL SUMMARY -->
+        <section class="mb-10 print-break-inside-avoid">
+            <h2 class="font-serif text-xl font-bold text-brand-900 border-b border-stone-200 pb-2 mb-4 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 bg-brand-800 rounded-sm"></span>
+                Professional Summary
+            </h2>
+            <p class="text-stone-700 leading-relaxed text-sm sm:text-base">
+                Detail-oriented AI Training Specialist and Linguistic Evaluator with over 10 years of analytical and text-editing experience. Specialized in Reinforcement Learning from Human Feedback (RLHF), Supervised Fine-Tuning (SFT), verbatim audio transcription, speech-to-text/TTS quality assessment, and multimodal evaluation across global AI platforms. Proven track record of strictly adhering to complex project rubrics, identifying subtle model hallucinations, and delivering high-precision annotations in Portuguese, English, and Spanish.
+            </p>
+        </section>
+
+        <!-- CORE COMPETENCIES & AI WORKFLOWS -->
+        <section class="mb-10 print-break-inside-avoid">
+            <h2 class="font-serif text-xl font-bold text-brand-900 border-b border-stone-200 pb-2 mb-4 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 bg-brand-800 rounded-sm"></span>
+                Core Competencies & AI Workflows
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm print-border-none print-bg-transparent">
+                    <h3 class="font-bold text-brand-800 text-sm mb-1.5 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Model Evaluation & RLHF
+                    </h3>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        Side-by-side response ranking, rubric scoring, instruction-following verification, safety/policy compliance, and hallucination detection.
+                    </p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm print-border-none print-bg-transparent">
+                    <h3 class="font-bold text-brand-800 text-sm mb-1.5 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        Linguistic & Text Quality
+                    </h3>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        Native-level grammar and style editing, localization accuracy, tone calibration, and prompt engineering refinement.
+                    </p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm print-border-none print-bg-transparent">
+                    <h3 class="font-bold text-brand-800 text-sm mb-1.5 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 100-6 3 3 0 000 6z"></path></svg>
+                        Audio & Speech Evaluation
+                    </h3>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        Verbatim audio transcription, acoustic quality rating, naturalness/prosody assessment for TTS, and ASR error analysis.
+                    </p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm print-border-none print-bg-transparent">
+                    <h3 class="font-bold text-brand-800 text-sm mb-1.5 flex items-center gap-2">
+                        <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        Multimodal & Web Assessment
+                    </h3>
+                    <p class="text-xs text-stone-600 leading-relaxed">
+                        Image-to-text alignment, visual grounding verification, live webpage UX/factuality auditing, and map/search relevance evaluation.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LANGUAGES -->
+        <section class="mb-10 print-break-inside-avoid">
+            <h2 class="font-serif text-xl font-bold text-brand-900 border-b border-stone-200 pb-2 mb-4 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 bg-brand-800 rounded-sm"></span>
+                Languages
+            </h2>
+            <div class="flex flex-wrap gap-3">
+                <div class="bg-white px-4 py-2.5 rounded-lg border border-stone-200 text-xs shadow-sm flex items-center gap-2 print-border-none">
+                    <span class="font-bold text-stone-900">Portuguese (PT-BR / PT-PT):</span>
+                    <span class="text-brand-800 font-medium">Native / Bilingual Proficiency</span>
+                </div>
+                <div class="bg-white px-4 py-2.5 rounded-lg border border-stone-200 text-xs shadow-sm flex items-center gap-2 print-border-none">
+                    <span class="font-bold text-stone-900">English:</span>
+                    <span class="text-brand-800 font-medium">Fluent (Professional Working & Evaluation)</span>
+                </div>
+                <div class="bg-white px-4 py-2.5 rounded-lg border border-stone-200 text-xs shadow-sm flex items-center gap-2 print-border-none">
+                    <span class="font-bold text-stone-900">Spanish:</span>
+                    <span class="text-brand-800 font-medium">Fluent</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- EXPERIENCE & PLATFORM QUALIFICATIONS -->
+        <section class="mb-10 print-break-inside-avoid">
+            <h2 class="font-serif text-xl font-bold text-brand-900 border-b border-stone-200 pb-2 mb-4 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 bg-brand-800 rounded-sm"></span>
+                Experience & Platform Qualifications
+            </h2>
+            
+            <div class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm print-border-none print-bg-transparent">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-stone-100 pb-3 mb-3">
+                    <div>
+                        <h3 class="font-bold text-brand-900 text-base">Freelance AI Training Specialist & Linguistic Evaluator</h3>
+                        <p class="text-xs text-stone-500 font-mono mt-0.5">Global AI Platforms & Annotation Ecosystems</p>
+                    </div>
+                    <span class="text-xs font-semibold text-brand-800 bg-brand-50 px-2.5 py-1 rounded-md self-start sm:self-auto mt-2 sm:mt-0 print-bg-transparent">
+                        Remote Contractor
+                    </span>
+                </div>
+
+                <p class="text-xs sm:text-sm text-stone-700 leading-relaxed mb-4">
+                    Active contributor across leading global AI data platforms, including <strong class="text-stone-900">Outlier</strong>, <strong class="text-stone-900">CrowdGen (Appen)</strong>, <strong class="text-stone-900">DataAnnotation</strong>, <strong class="text-stone-900">Telus International</strong>, <strong class="text-stone-900">OneForma</strong>, <strong class="text-stone-900">Alignerr</strong>, and <strong class="text-stone-900">micro1</strong>.
+                </p>
+
+                <div class="space-y-2">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-stone-500">Completed Certifications & Project Modules:</h4>
+                    <div class="flex flex-wrap gap-1.5">
+                        <span class="bg-stone-100 text-stone-800 text-xs px-2.5 py-1 rounded font-mono border border-stone-200">ISAAC</span>
+                        <span class="bg-stone-100 text-stone-800 text-xs px-2.5 py-1 rounded font-mono border border-stone-200">Verdi</span>
+                        <span class="bg-stone-100 text-stone-800 text-xs px-2.5 py-1 rounded font-mono border border-stone-200">Project Echo</span>
+                        <span class="bg-stone-100 text-stone-800 text-xs px-2.5 py-1 rounded font-mono border border-stone-200">Project Aether</span>
+                        <span class="bg-stone-100 text-stone-800 text-xs px-2.5 py-1 rounded font-mono border border-stone-200">Project Melora</span>
+                        <span class="bg-stone-100 text-stone-800 text-xs px-2.5 py-1 rounded font-mono border border-stone-200">Business Logic & Rubric Foundations</span>
+                    </div>
+                </div>
+
+                <div class="mt-4 pt-3 border-t border-stone-100 text-xs text-stone-600">
+                    <strong class="text-stone-800">Quality Record:</strong> Consistently selected for quality-auditing pipelines and complex edge-case tasks requiring strict adherence to multi-page annotation guidelines.
+                </div>
+            </div>
+        </section>
+
+        <!-- EVALUATION DEMONSTRATIONS (WORK SAMPLES) -->
+        <section class="mb-10 print-break-inside-avoid">
+            <div class="flex items-center justify-between border-b border-stone-200 pb-2 mb-4">
+                <h2 class="font-serif text-xl font-bold text-brand-900 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 bg-brand-800 rounded-sm"></span>
+                    Evaluation Demonstrations (Work Samples)
+                </h2>
+                <span class="text-xs text-stone-400 font-mono no-print">Click tabs to view scenarios</span>
+            </div>
+
+            <div class="space-y-4">
+                <!-- SAMPLE 1 -->
+                <article class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm print-break-inside-avoid print-border-none print-bg-transparent">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold tracking-wide uppercase bg-amber-50 text-amber-800 px-2.5 py-1 rounded border border-amber-200">
+                            1. Text Generation & Hallucination Detection (RLHF)
+                        </span>
+                        <span class="text-xs text-stone-400 font-mono">Sample 01</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs sm:text-sm">
+                        <div class="bg-stone-50 p-3 rounded border border-stone-100">
+                            <strong class="text-stone-900 font-semibold block mb-1">Scenario / Prompt:</strong>
+                            <p class="text-stone-700">A user asks for a summary of recent tax regulations in Brazil. Model A fabricates a non-existent law number while maintaining a confident tone, whereas Model B accurately cites the real legislation with minor formatting flaws.</p>
+                        </div>
+
+                        <div>
+                            <strong class="text-brand-800 font-semibold block mb-0.5">Evaluation Decision:</strong>
+                            <p class="text-stone-800 font-medium">Ranked <span class="text-emerald-700 underline font-bold">Model B significantly higher</span> over Model A.</p>
+                        </div>
+
+                        <div>
+                            <strong class="text-stone-900 font-semibold block mb-0.5">Rubric Rationale:</strong>
+                            <p class="text-stone-600 leading-relaxed">Under standard factuality and truthfulness guidelines, fabricated citations (hallucinations) constitute a critical failure regardless of fluency. Model B is truthful, safe, and directly helpful, requiring only minor stylistic cleanup.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SAMPLE 2 -->
+                <article class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm print-break-inside-avoid print-border-none print-bg-transparent">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold tracking-wide uppercase bg-blue-50 text-blue-800 px-2.5 py-1 rounded border border-blue-200">
+                            2. Audio & Speech Evaluation (TTS / Verbatim Transcription)
+                        </span>
+                        <span class="text-xs text-stone-400 font-mono">Sample 02</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs sm:text-sm">
+                        <div class="bg-stone-50 p-3 rounded border border-stone-100">
+                            <strong class="text-stone-900 font-semibold block mb-1">Scenario / Input:</strong>
+                            <p class="text-stone-700">Evaluating a synthesized Portuguese voice output reading a customer service script containing technical acronyms and natural human pauses.</p>
+                        </div>
+
+                        <div>
+                            <strong class="text-brand-800 font-semibold block mb-0.5">Evaluation Decision:</strong>
+                            <p class="text-stone-800 font-medium"><span class="text-amber-700 underline font-bold">Flagged prosody unnaturalness</span> on acronym pronunciation and logged exact timestamp discrepancies in verbatim transcription.</p>
+                        </div>
+
+                        <div>
+                            <strong class="text-stone-900 font-semibold block mb-0.5">Rubric Rationale:</strong>
+                            <p class="text-stone-600 leading-relaxed">Accurate phonetic rendering of domain-specific terms and strict adherence to hesitation/breath markers are essential for training reliable ASR and natural-sounding Text-to-Speech (TTS) models.</p>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- SAMPLE 3 -->
+                <article class="bg-white p-5 rounded-lg border border-stone-200 shadow-sm print-break-inside-avoid print-border-none print-bg-transparent">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-xs font-bold tracking-wide uppercase bg-purple-50 text-purple-800 px-2.5 py-1 rounded border border-purple-200">
+                            3. Multimodal & Local Search Relevance
+                        </span>
+                        <span class="text-xs text-stone-400 font-mono">Sample 03</span>
+                    </div>
+
+                    <div class="space-y-3 text-xs sm:text-sm">
+                        <div class="bg-stone-50 p-3 rounded border border-stone-100">
+                            <strong class="text-stone-900 font-semibold block mb-1">Scenario / Image Input:</strong>
+                            <p class="text-stone-700">Assessing whether an AI assistant's map recommendation and visual description match an uploaded storefront photo and user location intent.</p>
+                        </div>
+
+                        <div>
+                            <strong class="text-brand-800 font-semibold block mb-0.5">Evaluation Decision:</strong>
+                            <p class="text-stone-800 font-medium">Marked as <span class="text-rose-700 underline font-bold">Partially Accurate — Visual Mismatch</span>.</p>
+                        </div>
+
+                        <div>
+                            <strong class="text-stone-900 font-semibold block mb-0.5">Rubric Rationale:</strong>
+                            <p class="text-stone-600 leading-relaxed">While the geographic coordinates matched the query, the model misidentified signage details visible in the image, failing the strict visual-grounding criteria required for multimodal reliability.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- EDUCATION & ADDITIONAL TRAINING -->
+        <section class="mb-8 print-break-inside-avoid">
+            <h2 class="font-serif text-xl font-bold text-brand-900 border-b border-stone-200 pb-2 mb-4 flex items-center gap-2">
+                <span class="w-2.5 h-2.5 bg-brand-800 rounded-sm"></span>
+                Education & Qualifications
+            </h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm print-border-none print-bg-transparent">
+                    <h3 class="font-bold text-stone-900 text-sm">Technical Degree in Accounting</h3>
+                    <p class="text-xs text-brand-800 font-medium mt-0.5">Técnico em Contabilidade</p>
+                    <p class="text-xs text-stone-500 mt-1">Faculdade Sesi Serviço Social de Santos • 1998 – 2001</p>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-stone-200 shadow-sm print-border-none print-bg-transparent">
+                    <h3 class="font-bold text-stone-900 text-sm">First Aid Certification</h3>
+                    <p class="text-xs text-brand-800 font-medium mt-0.5">Certificação em Primeiros Socorros</p>
+                    <p class="text-xs text-stone-500 mt-1">Hospital de Ensino FOA ABC</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-stone-200 bg-stone-100 py-6 text-center text-xs text-stone-500 no-print mt-8">
+        <div class="max-w-4xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© Sandra Viana de Jesus — AI Data Annotator & Linguistic Evaluator</p>
+            <div class="flex items-center gap-4">
+                <a href="mailto:sandraviannaj151@gmail.com" class="hover:text-brand-800 transition-colors">Contact Email</a>
+                <span>•</span>
+                <a href="https://www.linkedin.com/in/sandra-viana-ia" target="_blank" class="hover:text-brand-800 transition-colors">LinkedIn Profile</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification for Email Copy -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-stone-900 text-white text-xs px-4 py-2.5 rounded-lg shadow-lg opacity-0 transition-opacity duration-300 pointer-events-none z-50 flex items-center gap-2">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+        Email copied to clipboard!
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        function copyEmail() {
+            const email = "sandraviannaj151@gmail.com";
+            
+            // Clipboard copy fallbacks
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(email);
+            } else {
+                const textarea = document.createElement("textarea");
+                textarea.value = email;
+                textarea.style.position = "fixed";
+                textarea.style.opacity = "0";
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                } catch (err) {
+                    console.error('Copy failed', err);
+                }
+                document.body.removeChild(textarea);
+            }
+
+            // Show Toast Notification
+            const toast = document.getElementById("toast");
+            toast.classList.remove("opacity-0");
+            toast.classList.add("opacity-100");
+            setTimeout(() => {
+                toast.classList.remove("opacity-100");
+                toast.classList.add("opacity-0");
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
+```
